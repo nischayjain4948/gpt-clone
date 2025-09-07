@@ -369,9 +369,11 @@ const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
                       <button
                         onClick={() => {
                           setEditingMessageId(m.id);
-                          setEditInput(
-  m.parts?.[0]?.type === "reasoning" || m.parts?.[0]?.type === "text"
-    ? (m.parts[0] as any).text
+                          const firstPart = m.parts?.[0];
+                      setEditInput(
+
+  firstPart && "text" in firstPart
+    ? firstPart.text
     : ""
 );
 
