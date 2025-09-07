@@ -109,19 +109,16 @@ export default function ChatApp() {
   const handleEditSubmit = (e: FormEvent, messageId: string) => {
     e.preventDefault();
 
-    setMessages((prev) => {
-      const updatedMessages = prev.map((msg) =>
-        msg.id === messageId
-          ? { ...msg, parts: [{ type: "text", text: editInput }] }
-          : msg
-      );
-
-      const editIndex = updatedMessages.findIndex((msg) => msg.id === messageId);
-      const trimmedMessages = updatedMessages.slice(0, editIndex + 1);
-
-      regenerate(messageId);
-      return trimmedMessages;
-    });
+   setMessages((prev) => {
+  return prev.map((msg) => {
+    if (msg.id === messageId) {
+      // Clone the original parts but update text
+      const newParts = msg.parts.map((p) => ({ ...p, text: editInput }));
+      return { ...msg, parts: newParts };
+    }
+    return msg;
+  });
+});
 
     setEditingMessageId(null);
     setEditInput("");
